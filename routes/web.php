@@ -14,10 +14,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::get('/', WelcomeController::class);
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::get('/messages/{user_id}', [\App\Http\Controllers\MessageController::class, 'index'])->middleware('auth');
+Route::post('/messages/{user_id}/send', [\App\Http\Controllers\MessageController::class, 'store'])->middleware('auth');
+Route::post('/messages/{id}/delete/', [\App\Http\Controllers\MessageController::class, 'destroy'])->middleware('auth');
 
 require __DIR__.'/auth.php';
