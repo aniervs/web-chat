@@ -105,7 +105,9 @@
 
                 @foreach($messages as $message)
                     <div class="message">
-                        <img class="avatar" src="https://placeimg.com/50/50/people?1">
+{{--                        <a href="/users/{{$message['sender_id']}}">--}}
+                            <img class="avatar" src="https://placeimg.com/50/50/people?1">
+{{--                        </a>--}}
 
                         <form action="/messages/{{$message['id']}}/delete" method="post">
                             @csrf
