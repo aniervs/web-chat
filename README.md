@@ -23,3 +23,7 @@ Models:
 
 ## Sample pictures 
 
+<img src="public/WelcomePage.png"/>
+
+<img src="public/ChatPage.png"/>
+
