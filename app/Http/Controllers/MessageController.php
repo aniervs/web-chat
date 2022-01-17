@@ -21,7 +21,7 @@ class MessageController extends Controller
             })->orWhere(
                 function ($query) use($logged_user, $user_id){
                     $query->where('sender_id', '=', $logged_user->id)->where('receiver_id', '=', $user_id);
-                })->get(['id', 'created_at', 'body'])->sortByDesc('created_at');
+                })->get()->sortByDesc('created_at');
 
         return view('chat', ['messages' => $messages, 'user_id' => $user_id]);
     }
