@@ -6,6 +6,7 @@ use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class MessageController extends Controller
 {
@@ -13,7 +14,7 @@ class MessageController extends Controller
     {
         User::findOrFail($user_id);
 
-        $logged_user = User::find(Auth::id());
+        $logged_user = Auth::user();
 
         $messages = Message::where(
             function ($query) use($logged_user, $user_id){
@@ -26,15 +27,24 @@ class MessageController extends Controller
         return view('chat', ['messages' => $messages, 'user_id' => $user_id]);
     }
 
-    public function create()
-    {
-
-    }
-
     public function store(int $user_id, Request $request)
     {
-        User::findOrFail($user_id);
-        $logged_user = User::find(Auth::id());
+        $fields = $request->toArray();
+        $validator = Validator::make($fields, [
+            'text' => 'string|nullable',
+        ]);
+
+        if($validator->fails()){
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        try {
+            User::findOrFail($user_id);
+        } catch(\Exception $e){
+            return redirect()->back()->withErrors(['msg' => 'User not found.']);
+        }
+
+        $logged_user = Auth::user();
         $message = $request->input('text','');
 
         Message::create([
@@ -46,33 +56,19 @@ class MessageController extends Controller
         return redirect()->action([MessageController::class, 'index'], ['user_id' => $user_id]);
     }
 
-    public function show($id)
-    {
-        //
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
     public function destroy(int $id)
     {
-        $logged_user = User::find(Auth::id());
+        $logged_user = Auth::user();
 
         try{
             $message = Message::findOrFail($id);
         }catch (\Exception $e){
-            return redirect()->back()->withErrors(['msg' => 'Message not found.'])->withInput();
+            return redirect()->back()->withErrors(['msg' => 'Message not found.']);
         }
 
-        if($message->sender_id != $logged_user->id and $message->receiver_id != $logged_user->id)
-            abort(403);
+        if($message->sender_id != $logged_user->id and $message->receiver_id != $logged_user->id){
+            return redirect()->back()->withErrors(['msg' => 'Not allowed.']);
+        }
 
         try{
             $message->delete();
