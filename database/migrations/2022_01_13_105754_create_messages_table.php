@@ -17,7 +17,7 @@ class CreateMessagesTable extends Migration
             $table->id();
             $table->foreignId('sender_id')->references('id')->on('users');
             $table->foreignId('receiver_id')->references('id')->on('users');
-            $table->text('body');
+            $table->text('body')->nullable();
             $table->timestamps();
         });
     }
