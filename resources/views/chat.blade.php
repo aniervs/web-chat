@@ -2,10 +2,10 @@
 <link rel="stylesheet" href="/css/app.css">
 
 <div class="container">
-    <div class="row clearfix">
+    <div class="row clearfix" style="height: 80vh">
         <div class="col-lg-12">
             <div class="card chat-app">
-                <div id="plist" class="people-list" style="height: 100vh; overflow: auto">
+                <div id="plist" class="people-list" style="height: 100%; overflow: auto">
                     <div class="input-group">
                         <div class="input-group-prepend">
                             <span class="input-group-text"><i class="fa fa-search"></i></span>
@@ -54,7 +54,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="chat-history" style="height: 100vh; overflow: auto">
+                    <div class="chat-history" style="height: 100%; overflow: auto">
                         <ul class="m-b-0">
                             @foreach($messages as $message)
                                 <li class="clearfix">
