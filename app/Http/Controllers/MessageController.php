@@ -10,9 +10,13 @@ use Illuminate\Support\Facades\Validator;
 
 class MessageController extends Controller
 {
-    public function index(int $user_id)
+    public function index($user_id = null)
     {
-        User::findOrFail($user_id);
+        if($user_id === null){
+            $user_id = Auth::id();
+        }
+
+        $other_user = User::findOrFail($user_id);
 
         $logged_user = Auth::user();
 
@@ -22,9 +26,11 @@ class MessageController extends Controller
             })->orWhere(
                 function ($query) use($logged_user, $user_id){
                     $query->where('sender_id', '=', $logged_user->id)->where('receiver_id', '=', $user_id);
-                })->get()->sortByDesc('created_at');
+                })->get()->sortBy('created_at');
 
-        return view('chat', ['messages' => $messages, 'user_id' => $user_id]);
+        $users = User::all();
+
+        return view('chat', ['messages' => $messages, 'users' => $users, 'other_user' => $other_user]);
     }
 
     public function store(int $user_id, Request $request)
