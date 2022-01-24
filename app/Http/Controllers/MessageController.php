@@ -12,7 +12,7 @@ class MessageController extends Controller
 {
     public function index($user_id = null)
     {
-        if($user_id === null){
+        if ($user_id === null) {
             $user_id = Auth::id();
         }
 
@@ -21,12 +21,14 @@ class MessageController extends Controller
         $logged_user = Auth::user();
 
         $messages = Message::where(
-            function ($query) use($logged_user, $user_id){
+            function ($query) use ($logged_user, $user_id) {
                 $query->where('receiver_id', '=', $logged_user->id)->where('sender_id', '=', $user_id);
-            })->orWhere(
-                function ($query) use($logged_user, $user_id){
+            }
+        )->orWhere(
+                function ($query) use ($logged_user, $user_id) {
                     $query->where('sender_id', '=', $logged_user->id)->where('receiver_id', '=', $user_id);
-                })->get()->sortBy('created_at');
+                }
+            )->get()->sortBy('created_at');
 
         $users = User::all();
 
@@ -40,23 +42,23 @@ class MessageController extends Controller
             'text' => 'string|nullable',
         ]);
 
-        if($validator->fails()){
+        if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
         try {
             User::findOrFail($user_id);
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             return redirect()->back()->withErrors(['msg' => 'User not found.']);
         }
 
         $logged_user = Auth::user();
-        $message = $request->input('text','');
+        $message = $request->input('text', '');
 
         Message::create([
-            'sender_id' => $logged_user->id,
+            'sender_id'   => $logged_user->id,
             'receiver_id' => $user_id,
-            'body' => $message
+            'body'        => $message,
         ]);
 
         return redirect()->action([MessageController::class, 'index'], ['user_id' => $user_id]);
@@ -66,19 +68,19 @@ class MessageController extends Controller
     {
         $logged_user = Auth::user();
 
-        try{
+        try {
             $message = Message::findOrFail($id);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return redirect()->back()->withErrors(['msg' => 'Message not found.']);
         }
 
-        if($message->sender_id != $logged_user->id and $message->receiver_id != $logged_user->id){
+        if ($message->sender_id != $logged_user->id and $message->receiver_id != $logged_user->id) {
             return redirect()->back()->withErrors(['msg' => 'Not allowed.']);
         }
 
-        try{
+        try {
             $message->delete();
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             return redirect()->back()->withErrors(['msg' => 'Problem with deleting the message.'])->withInput();
         }
 
