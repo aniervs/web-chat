@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::get('/', WelcomeController::class);
 
 Route::get('/dashboard', function () {
