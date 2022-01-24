@@ -6,16 +6,6 @@
         <div class="col-lg-12">
             <div class="card chat-app">
                 <div id="plist" class="people-list" style="height: 100%; overflow: auto">
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><i class="fa fa-search"></i></span>
-                        </div>
-                        <form action="/users/search/" method="post">
-                            @csrf
-                            <input type="text" class="form-control" placeholder="Search...">
-                        </form>
-
-                    </div>
                     <ul class="list-unstyled chat-list mt-2 mb-0">
                         @foreach($users as $user)
                             @if($user->id == $other_user->id)
