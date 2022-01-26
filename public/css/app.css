@@ -368,7 +368,7 @@ Constrain images and videos to the parent width and preserve their intrinsic asp
 
 img,
 video {
-  max-width: 100%;
+  // max-width: 100%;
   height: auto;
 }
 
@@ -596,31 +596,31 @@ select {
 @media (min-width: 640px) {
 
   .container {
-    max-width: 640px;
+    // max-width: 640px;
   }
 }
 @media (min-width: 768px) {
 
   .container {
-    max-width: 768px;
+    // max-width: 768px;
   }
 }
 @media (min-width: 1024px) {
 
   .container {
-    max-width: 1024px;
+    // max-width: 1024px;
   }
 }
 @media (min-width: 1280px) {
 
   .container {
-    max-width: 1280px;
+    // max-width: 1280px;
   }
 }
 @media (min-width: 1536px) {
 
   .container {
-    max-width: 1536px;
+    // max-width: 1536px;
   }
 }
 .fixed {
@@ -1618,7 +1618,7 @@ body{
 
 @media only screen and (max-width: 767px) {
     .chat-app .people-list {
-        height: 465px;
+        height: 100%;
         width: 100%;
         overflow-x: auto;
         background: #fff;
@@ -1642,7 +1642,7 @@ body{
 
 @media only screen and (min-width: 768px) and (max-width: 992px) {
     .chat-app .chat-list {
-        height: 650px;
+        /* height: 650px; */
         overflow-x: auto
     }
     .chat-app .chat-history {
@@ -1653,7 +1653,7 @@ body{
 
 @media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 1) {
     .chat-app .chat-list {
-        height: 480px;
+        height: 100%;
         overflow-x: auto
     }
     .chat-app .chat-history {
