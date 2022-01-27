@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use App\Models\User;
+use App\Notifications\MessageReceived;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -29,7 +30,7 @@ class MessageController extends Controller
                     $query->where('sender_id', '=', $logged_user->id)->where('receiver_id', '=', $user_id);
                 }
             )->get()->sortBy('created_at');
-
+        
         $users = User::all();
 
         return view('chat', ['messages' => $messages, 'users' => $users, 'other_user' => $other_user]);
@@ -47,7 +48,7 @@ class MessageController extends Controller
         }
 
         try {
-            User::findOrFail($user_id);
+            $other_user = User::findOrFail($user_id);
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['msg' => 'User not found.']);
         }
@@ -55,11 +56,13 @@ class MessageController extends Controller
         $logged_user = Auth::user();
         $message = $request->input('text', '');
 
-        Message::create([
+        $message = Message::create([
             'sender_id'   => $logged_user->id,
             'receiver_id' => $user_id,
             'body'        => $message,
         ]);
+
+        $other_user->notify(new MessageReceived($message));
 
         return redirect()->action([MessageController::class, 'index'], ['user_id' => $user_id]);
     }
