@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
@@ -11,29 +13,28 @@ class UserController extends Controller
     {
         $users = User::all();
 
-        return view('users', ['users' => $users]);
-    }
-
-    public function create()
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
+        return view('users.users', ['users' => $users]);
     }
 
     public function show(int $id)
     {
         $user = User::findOrFail($id);
 
-        return view('user_detail', ['user' => $user]);
+        return view('users.profile', ['user' => $user]);
     }
 
     public function edit($id)
     {
-        //
+        try{
+            $user = User::findOrfail($id);
+        }catch(\Exception $e){
+            return redirect()->back()->withErrors(['msg' => 'User not found.']);
+        }
+        if(!Gate::allows('edit-user', $user)){
+            return redirect()->back()->withErrors(['msg' => 'You are not allowed to edit this user.']);
+        }
+
+        return view('users.edit', ['user' => $user]);
     }
 
     public function update(Request $request, $id)
@@ -41,17 +42,33 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
         } catch (\Exception $e) {
-            return redirect()->back()->withErrors(['msg' => 'User not found.']);
+            return redirect()->back()->withErrors(['msg' => 'User not found.'])->withInput();
         }
 
         $fields = $request->toArray();
+        $validator = Validator::make($fields, [
+            'name' => ['string', 'nullable'],
+            'is_admin' => ['boolean', 'nullable'],
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         if (isset($fields['_token'])) {
             unset($fields['_token']);
         }
-        foreach ($fields as $key => $val) {
-            $user->$key = $val;
+
+        if(isset($fields['name']))
+            $user->name = $fields['name'];
+        if(isset($fields['is_admin']))
+            $user->is_admin = $fields['is_admin'];
+
+        try{
+            $user->save();
+        } catch(\Exception $e){
+            return redirect()->back()->withErrors(['msg' => 'Problem when saving.']);
         }
-        $user->save();
 
         return redirect()->back();
     }
@@ -63,7 +80,18 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->withErrors(['msg' => 'User not found.']);
         }
-        $user->delete();
+
+        if(!Gate::allows('delete-user', $user)){
+            return redirect()->back()->withErrors(['msg' => 'You are not allowed to delete this user.']);
+        }
+
+        
+        try{
+            $user->delete();
+        } catch(\Exception $e){
+            dd($e->getMessage());
+            return redirect()->back()->withErrors(['msg' => 'Problem when deleting.']);
+        }
 
         return redirect()->back();
     }
