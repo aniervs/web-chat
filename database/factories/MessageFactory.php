@@ -15,13 +15,13 @@ class MessageFactory extends Factory
     public function definition()
     {
         return [
-            'sender_id' => function(){
+            'sender_id' => function () {
                 return User::factory()->create();
             },
-            'receiver_id' => function(){
+            'receiver_id' => function () {
                 return User::factory()->create();
             },
-            'body' => $this->faker->text()
+            'body' => $this->faker->text(),
         ];
     }
 }
