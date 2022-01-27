@@ -26,11 +26,11 @@ class MessageController extends Controller
                 $query->where('receiver_id', '=', $logged_user->id)->where('sender_id', '=', $user_id);
             }
         )->orWhere(
-                function ($query) use ($logged_user, $user_id) {
+            function ($query) use ($logged_user, $user_id) {
                     $query->where('sender_id', '=', $logged_user->id)->where('receiver_id', '=', $user_id);
                 }
-            )->get()->sortBy('created_at');
-        
+        )->get()->sortBy('created_at');
+
         $users = User::all();
 
         return view('chat', ['messages' => $messages, 'users' => $users, 'other_user' => $other_user]);
