@@ -1,29 +1,73 @@
-<div class="flex justify-center pt-8 sm:justify-start sm:pt-0" style="text-align: center">
-<h1 style="color:red;font-size:40px;">AWESOME? CHAT</h1>
-</div>
-
-<p style="text-align: center;">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
-
-## About the Project
-
+# Message App
 A messaging app.
 Models:
 - Users: name, email, email_verified_at, password, token
 - Avatars: user_id, picture_link
 - Messages: sender_id, receiver_id, body
 
-## How to install
-- Install laravel
-- Use composer to install all dependencies
+
+## Description
+The repository contains the final project required at the end of the
+[Modern Web Application II](https://harbour.space/computer-science/courses/modern-web-application-2-431) course at
+[Harbour.Space University](https://harbour.space) in January 2022.
+
+## Getting Started
+
+### Dependencies
+This is a standard Laravel project. All dependencies are listed in <code>composer.json</code>.
+
+### Installing
+The standard way of installing a Laravel application suffices
+
+Clone the repository
+```
+git clone https://github.com/aniervs/Modern-Web-Dev2
+```
+
+Go into the app directory & install composer dependencies
+
+```
+composer install
+```
+
+Copy <code>.env.example</code> to <code>.env</code> and make sure to set the application name, application url and database parameters.
+
+Set the application key
+
+```
+php artisan key:generate
+```
+
+Migrate so the tables are created
+
+```
+php artisan migrate
+```
+
+If wanted, you can seed the app with some test data
+
+```
+php artisan db:seed
+```
+
+Install npm dependencies and compile assets
+
+```
+npm install && npm run dev
+```
+
+## Authors
+
+Anier Velasco Sotomayor
+- github: [aniervs](https://github.com/aniervs)
+
+## Acknowledgments
+Thank you to [Harbour.Space University](https://harbour.space) for organising the Modern Web Application II course.
 
 ## Sample pictures 
 
 <img src="public/WelcomePage.png"/>
 
 <img src="public/ChatPage.png"/>
+
 
