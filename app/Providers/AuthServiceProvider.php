@@ -4,8 +4,8 @@ namespace App\Providers;
 
 use App\Models\Message;
 use App\Models\User;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -40,6 +40,5 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('delete-message', function (User $user, Message $message) {
             return $user->id == $message->sender_id || $user->id == $message->receiver_id;
         });
-    
     }
 }
