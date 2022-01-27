@@ -45,7 +45,7 @@ class MessageReceived extends Notification
     {
         return (new MailMessage())
                     ->greeting('Hello '.$notifiable->name)
-                    ->line('We inform you that <strong>'.$this->message->receiver->name.'</strong> with email '.$this->message->receiver->email.' sent you a message.')
+                    ->line('We inform you that <strong>'.$this->message->sender->name.'</strong> with email '.$this->message->sender->email.' sent you a message.')
                     ->action('Notification Action', url('/messages/'.$this->message->sender->id))
                     ->line('Thank you for using our application!');
     }
