@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Message;
+use App\Models\User;
+use App\Notifications\MessageReceived;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use App\Notifications\MessageReceived;
 use Illuminate\Support\Facades\Validator;
 
 class MessageController extends Controller
@@ -28,8 +28,8 @@ class MessageController extends Controller
             }
         )->orWhere(
             function ($query) use ($logged_user, $user_id) {
-                    $query->where('sender_id', '=', $logged_user->id)->where('receiver_id', '=', $user_id);
-                }
+                $query->where('sender_id', '=', $logged_user->id)->where('receiver_id', '=', $user_id);
+            }
         )->get()->sortBy('created_at');
 
         $users = User::all();
@@ -78,7 +78,7 @@ class MessageController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Message not found.']);
         }
 
-        if(!Gate::allows('delete-message', $logged_user)){
+        if (!Gate::allows('delete-message', $logged_user)) {
             return redirect()->back()->withErrors(['msg' => 'You are not allowed to delete this message.']);
         }
 

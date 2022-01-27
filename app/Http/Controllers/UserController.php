@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -25,12 +25,12 @@ class UserController extends Controller
 
     public function edit($id)
     {
-        try{
+        try {
             $user = User::findOrfail($id);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return redirect()->back()->withErrors(['msg' => 'User not found.']);
         }
-        if(!Gate::allows('edit-user', $user)){
+        if (!Gate::allows('edit-user', $user)) {
             return redirect()->back()->withErrors(['msg' => 'You are not allowed to edit this user.']);
         }
 
@@ -47,7 +47,7 @@ class UserController extends Controller
 
         $fields = $request->toArray();
         $validator = Validator::make($fields, [
-            'name' => ['string', 'nullable'],
+            'name'     => ['string', 'nullable'],
             'is_admin' => ['boolean', 'nullable'],
         ]);
 
@@ -59,14 +59,16 @@ class UserController extends Controller
             unset($fields['_token']);
         }
 
-        if(isset($fields['name']))
+        if (isset($fields['name'])) {
             $user->name = $fields['name'];
-        if(isset($fields['is_admin']))
+        }
+        if (isset($fields['is_admin'])) {
             $user->is_admin = $fields['is_admin'];
+        }
 
-        try{
+        try {
             $user->save();
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             return redirect()->back()->withErrors(['msg' => 'Problem when saving.']);
         }
 
@@ -81,15 +83,15 @@ class UserController extends Controller
             return redirect()->back()->withErrors(['msg' => 'User not found.']);
         }
 
-        if(!Gate::allows('delete-user', $user)){
+        if (!Gate::allows('delete-user', $user)) {
             return redirect()->back()->withErrors(['msg' => 'You are not allowed to delete this user.']);
         }
 
-        
-        try{
+        try {
             $user->delete();
-        } catch(\Exception $e){
+        } catch (\Exception $e) {
             dd($e->getMessage());
+
             return redirect()->back()->withErrors(['msg' => 'Problem when deleting.']);
         }
 
