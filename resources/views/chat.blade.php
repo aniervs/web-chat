@@ -57,7 +57,7 @@
                                             <span class="message-data-time float-right">{{$message->created_at}}</span>
                                             <br>
                                             <div class="message other-message float-right">
-                                                <p style="font-weight:bold">{{$other_user->name}}</p>
+                                                <p style="font-weight:bold">You</p>
                                                 <br>
                                                 {{$message->body}}
                                             </div>
@@ -65,7 +65,7 @@
                                             <span class="message-data-time float-left">{{$message->created_at}}</span>
                                             <br>
                                             <div class="message my-message">
-                                                <p style="font-weight:bold">You</p>
+                                                <p style="font-weight:bold">{{$other_user->name}}</p>
                                                 <br>
                                                 {{$message->body}}
                                             </div>
