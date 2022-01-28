@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::paginate(10);
 
         return view('users.users', ['users' => $users]);
     }
@@ -48,6 +48,7 @@ class UserController extends Controller
         $fields = $request->toArray();
         $validator = Validator::make($fields, [
             'name'     => ['string', 'nullable'],
+            'avatar' => ['image'],
             'is_admin' => ['boolean', 'nullable'],
         ]);
 
@@ -55,15 +56,14 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        if (isset($fields['_token'])) {
-            unset($fields['_token']);
+        if($request->has('name')) {
+            $user->name = $request->name;
         }
-
-        if (isset($fields['name'])) {
-            $user->name = $fields['name'];
+        if($request->has('is_admin')){
+            $user->is_admin = $request->is_admin;
         }
-        if (isset($fields['is_admin'])) {
-            $user->is_admin = $fields['is_admin'];
+        if($request->hasFile('avatar')){
+            $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
         }
 
         try {
@@ -72,7 +72,7 @@ class UserController extends Controller
             return redirect()->back()->withErrors(['msg' => 'Problem when saving.']);
         }
 
-        return redirect()->back();
+        return redirect('/users/'.$user->id);
     }
 
     public function destroy($id)
@@ -90,8 +90,6 @@ class UserController extends Controller
         try {
             $user->delete();
         } catch (\Exception $e) {
-            dd($e->getMessage());
-
             return redirect()->back()->withErrors(['msg' => 'Problem when deleting.']);
         }
 

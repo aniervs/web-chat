@@ -33,7 +33,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/users', [\App\Http\Controllers\UserController::class, 'index']);
     Route::get('/users/{id}', [\App\Http\Controllers\UserController::class, 'show']);
-    Route::get('/users/edit/{id}', [\App\Http\Controllers\UserController::class, 'show']);
+    Route::get('/users/edit/{id}', [\App\Http\Controllers\UserController::class, 'edit']);
+    Route::post('/users/update/{id}', [\App\Http\Controllers\UserController::class, 'update']);
     Route::post('/users/delete/{id}', [\App\Http\Controllers\UserController::class, 'destroy']);
 });
 
