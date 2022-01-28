@@ -53,7 +53,7 @@
                                         <div class="message-data text-right">
     
                                         </div>
-                                        @if($message->sender->id == $other_user->id)
+                                        @if($message->sender->id != $other_user->id)
                                             <span class="message-data-time float-right">{{$message->created_at}}</span>
                                             <br>
                                             <div class="message other-message float-right">
