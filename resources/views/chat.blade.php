@@ -15,7 +15,11 @@
                                 @else
                                     <li class="clearfix" onclick="location.href='/messages/{{$user->id}}'">
                                 @endif
+                                    @if ( ($avatars = $user->getMedia('avatars'))->count() > 0)
+                                        <img src="{{$avatars[$avatars->count()-1]->getUrl('small')}}">
+                                    @else
                                         <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                                    @endif
                                             <div class="about">
                                             <div class="name">{{$user->name}}
                                             </div>
@@ -30,17 +34,15 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <a href="/users/{{$other_user->id}}" data-toggle="modal" data-target="#view_info">
-                                        <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar">
+                                        @if ( ($avatars = $other_user->getMedia('avatars'))->count() > 0)
+                                            <img src="{{$avatars[$avatars->count()-1]->getUrl('small')}}">
+                                        @else
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
+                                        @endif
                                     </a>
                                     <div class="chat-about">
                                         <h6 class="m-b-0">{{$other_user->name}}</h6>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 hidden-sm text-right">
-                                    <a href="javascript:void(0);" class="btn btn-outline-secondary"><i class="fa fa-camera"></i></a>
-                                    <a href="javascript:void(0);" class="btn btn-outline-primary"><i class="fa fa-image"></i></a>
-                                    <a href="javascript:void(0);" class="btn btn-outline-info"><i class="fa fa-cogs"></i></a>
-                                    <a href="javascript:void(0);" class="btn btn-outline-warning"><i class="fa fa-question"></i></a>
                                 </div>
                             </div>
                         </div>
