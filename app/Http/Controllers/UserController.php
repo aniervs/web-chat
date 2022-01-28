@@ -63,6 +63,7 @@ class UserController extends Controller
             $user->is_admin = $request->is_admin;
         }
         if ($request->hasFile('avatar')) {
+            $user->clearMediaCollection('avatars');
             $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
         }
 

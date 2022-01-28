@@ -16,7 +16,7 @@
                                     <li class="clearfix" onclick="location.href='/messages/{{$user->id}}'">
                                 @endif
                                     @if ( ($avatars = $user->getMedia('avatars'))->count() > 0)
-                                        <img src="{{$avatars[$avatars->count()-1]->getUrl('small')}}">
+                                        <img src="{{$avatars->first()->getUrl('small')}}">
                                     @else
                                         <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
                                     @endif
@@ -35,7 +35,7 @@
                                 <div class="col-lg-6">
                                     <a href="/users/{{$other_user->id}}" data-toggle="modal" data-target="#view_info">
                                         @if ( ($avatars = $other_user->getMedia('avatars'))->count() > 0)
-                                            <img src="{{$avatars[$avatars->count()-1]->getUrl('small')}}">
+                                            <img src="{{$avatars->first()->getUrl('small')}}">
                                         @else
                                             <img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="avatar">
                                         @endif

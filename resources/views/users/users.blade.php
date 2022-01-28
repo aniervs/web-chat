@@ -18,7 +18,7 @@
                 <tr>
                     <td>
                         @if ( ($avatars = $user->getMedia('avatars'))->count() > 0)
-                            <img src="{{$user->getMedia('avatars')->last()->getUrl('small')}}" alt="Avatar">
+                            <img src="{{$avatars->first()->getUrl('small')}}" alt="Avatar">
                         @else
                             <img src="/generic_avatar_small.png" alt="avatar">
                         @endif

@@ -10,7 +10,7 @@
     <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
         <div class="flex justify-center pt-8 sm:justify-start sm:pt-0">
             @if ( ($avatars = $user->getMedia('avatars'))->count() > 0)
-            <img src="{{$user->getMedia('avatars')->last()->getUrl('medium')}}" alt="Avatar">
+            <img src="{{$avatars->first()->getUrl('medium')}}" alt="Avatar">
             @else
             <img src="/generic_avatar.png" alt="avatar">
             @endif
