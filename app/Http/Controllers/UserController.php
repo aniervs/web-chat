@@ -48,7 +48,7 @@ class UserController extends Controller
         $fields = $request->toArray();
         $validator = Validator::make($fields, [
             'name'     => ['string', 'nullable'],
-            'avatar' => ['image'],
+            'avatar'   => ['image'],
             'is_admin' => ['boolean', 'nullable'],
         ]);
 
@@ -56,13 +56,13 @@ class UserController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        if($request->has('name')) {
+        if ($request->has('name')) {
             $user->name = $request->name;
         }
-        if($request->has('is_admin')){
+        if ($request->has('is_admin')) {
             $user->is_admin = $request->is_admin;
         }
-        if($request->hasFile('avatar')){
+        if ($request->hasFile('avatar')) {
             $user->addMediaFromRequest('avatar')->toMediaCollection('avatars');
         }
 
