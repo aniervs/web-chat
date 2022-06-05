@@ -1,17 +1,8 @@
 # Message App
-A messaging app.
-Models:
-- Users: name, email, email_verified_at, password, token
-- Avatars: user_id, picture_link
-- Messages: sender_id, receiver_id, body
-
+A web chat app.
 
 ## Description
-The repository contains the final project required at the end of the
-[Modern Web Application II](https://harbour.space/computer-science/courses/modern-web-application-2-431) course at
-[Harbour.Space University](https://harbour.space) in January 2022.
-
-## Getting Started
+The repository contains the project for the [Modern Web Application II](https://harbour.space/computer-science/courses/modern-web-application-2-431) course at [Harbour.Space University](https://harbour.space) in January 2022.
 
 ### Dependencies
 This is a standard Laravel project. All dependencies are listed in <code>composer.json</code>.
